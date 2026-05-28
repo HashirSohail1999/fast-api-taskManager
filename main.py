@@ -3,10 +3,13 @@ from fastapi import FastAPI
 app = FastAPI()
 
 tasks= [
-    {"title":"study Fastapi"},
-    {"title2":"study Fastapi"},
-    {"title":"study Fastapi"}
+    {
+        "id":1,
+        "title":"learn FastApi",
+        "completed":False
+    }
 ]
+task_id_counter=2
 
 @app.get("/")
 def home():
@@ -18,5 +21,12 @@ def get_tasks():
 
 @app.post("/tasks")
 def create_task(task:dict):
-    tasks.append(task)
-    return {"message":"task added"}
+    global task_id_counter
+    new_task ={
+        "id":task_id_counter,
+        "title":task["title"],
+        "completed":False
+    }
+    tasks.append(new_task)
+    task_id_counter +=1
+    return new_task
